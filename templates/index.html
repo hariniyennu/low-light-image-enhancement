@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Image Enhancer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <div id="login-page" class="auth-container hidden">
+        <div class="auth-card">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn btn-full">Login</button>
+                <button type="button" class="btn oauth-btn btn-full">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png" style="height: 20px; width: 20px;" alt="Google">
+                    Continue with Google
+                </button>
+            </form>
+            <div class="auth-toggle">
+                <p>Don't have an account? <a href="#" id="go-to-signup">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="signup-page" class="auth-container hidden">
+        <div class="auth-card">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-confirm-password">Confirm Password</label>
+                    <input type="password" id="signup-confirm-password" required>
+                </div>
+                <button type="submit" class="btn btn-full">Sign Up</button>
+                <button type="button" class="btn oauth-btn btn-full">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png" style="height: 20px; width: 20px;" alt="Google">
+                    Continue with Google
+                </button>
+            </form>
+            <div class="auth-toggle">
+                <p>Already have an account? <a href="#" id="go-to-login">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="#" class="logo">Image Enhancer</a>
+                <button class="hamburger">☰</button>
+                <ul class="nav-links">
+                    <button class="close-menu hidden">✕</button>
+                    <li><a href="#" id="nav-home">Home</a></li>
+                    <li><a href="#" id="nav-previous">Previous Data</a></li>
+                    <li><a href="#" id="nav-about">About</a></li>
+                    <li><button  class="dark-mode-toggle" id="dark-mode-toggle">🌙</button></li>
+                    <li><a href="#" id="nav-logout">Logout</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div id="home-page">
+            <div class="header-section container">
+                <h1>AI-Based Image Enhancement</h1>
+                <p>Enhance your low light images with our advanced AI technology</p>
+
+                <div class="upload-options">
+                    <div class="option-card">
+                        <h3>Upload Image</h3>
+                        <p>Select an image from your device</p>
+                        <input type="file" id="image-upload" accept="image/*" class="hidden">
+                        <button class="btn" id="upload-img-btn">Choose File</button>
+                    </div>
+                    <div class="option-card">
+                        <h3>Use Webcam</h3>
+                        <p>Capture media using your camera</p>
+                        <button class="btn" id="webcam-photo-btn">Take Photo</button>
+                    </div>
+                </div>
+
+                <div class="preview-area">
+                    <h2>Preview</h2>
+                    <div class="preview-container">
+                        <div class="preview-box" id="original-preview">
+                            <p>Original Media</p>
+                        </div>
+                        <div class="preview-box" id="enhanced-preview">
+                            <p>Enhanced Media</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="main-controls">
+                    <button class="btn control-btn" id="enhance-btn">Enhance</button>
+                    <button class="btn control-btn" id="fullscreen-btn">View Fullscreen</button>
+                    <button class="btn control-btn" id="download-btn">Download & Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="previous-page" class="container previous-data hidden">
+            <h1>Previous Enhancements</h1>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="image">Images</button>
+            </div>
+            <div class="data-grid" id="previous-data-grid"></div>
+        </div>
+
+        <div id="about-page" class="container about-section hidden">
+            <h1>About AI Image Enhancer</h1>
+            <p>Our technology improves visibility in low-light images using AI models that enhance contrast, clarity, and brightness without losing important features.</p>
+        </div>
+
+        <div id="fullscreen-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-modal">&times;</span>
+                <div class="fullscreen-container">
+                    <div class="fullscreen-view" id="fullscreen-original">
+                        <h3>Original</h3>
+                        <div class="content"></div>
+                    </div>
+                    <div class="fullscreen-view" id="fullscreen-enhanced">
+                        <h3>Enhanced</h3>
+                        <div class="content"></div>
+                    </div>
+                </div>
+                <div class="modal-controls">
+                    <button id="modal-save-btn" class="btn">Save and Download</button>
+                    <button id="modal-close-btn" class="btn">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="webcam-modal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-webcam-modal">&times;</span>
+                <h2 id="webcam-modal-title">Camera Access</h2>
+                <div class="webcam-container">
+                    <video id="webcam-stream" autoplay></video>
+                    <canvas id="webcam-canvas" class="hidden"></canvas>
+                </div>
+                <div class="webcam-controls">
+                    <button id="capture-photo-btn" class="btn">Capture Photo</button>
+                    <button id="use-media-btn" class="btn">Use Media</button>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2025 AI Image Enhancer. All rights reserved.</p>
+                <p>Contact: rishi250904@gmail.com</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>
