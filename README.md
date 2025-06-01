@@ -21,8 +21,7 @@ An AI-powered web application to enhance low-light images using deep learning (Z
 project/
 │
 ├── app.py                     # Flask backend for image processing
-├── model/
-│   └── enhance_net_nopool.py  # Zero-DCE model definition
+├── model.py                   # Zero-DCE model definition                  
 ├── snapshots/
 │   └── Epoch99.pth            # Pre-trained model weights
 │
